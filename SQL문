@@ -1,0 +1,40 @@
+1. SELECT: 데이터베이스 내의 테이블에서 원하는 정보를 추출하는 명령
+    SELECT 열이름
+    FROM 테이블이름
+    WHERE 조건
+    
+    * = 모든 열
+    여러 개의 열을 불러오고 싶은 경우 " ,"로 구분
+    테이블이름 = 테이블/뷰
+    
+
+2. USE: 사용할 데이터베이스 지정
+    USE 데이터베이스_이름;
+    
+    
+3. 주석
+    한 줄: -- 주석
+    여러 줄:
+    /*
+    SELSECT FIRST_NAME, LAST_NAME
+    FROM EMPLOYEES;
+    */
+
+4. 보기
+    SHOW DATABASES; 현재 서버 데이터베이스 조회
+    SHOW TABLE STATUS; 현재 테이블의 정보 조회
+    SHOW TABLES; 현재 테이블의 이름만 조회
+
+5. 열 이름 확인
+    DESCRIBE 테이블이름;
+    DESC 테이블이름;
+
+6. 열 이름 별칭 지정
+    AS 의 사용 유무는 무관, 별칭에 띄어쓰기가 포함될 경우 ''로 묶기
+    SELECT first_name AS 이름, gender 성별, hire_date '회사 입사일'
+    FROM employees;
+   
+
+
+
+
