@@ -104,5 +104,4 @@
             GROUP BY GROUPNAME, NUM
             WITH ROLLUP;
             
-20. 
 
