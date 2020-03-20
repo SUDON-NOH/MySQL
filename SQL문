@@ -34,7 +34,62 @@
     SELECT first_name AS 이름, gender 성별, hire_date '회사 입사일'
     FROM employees;
    
+7. Where 절
+    SELECT 필드이름 FROM 테이블이름 WHERE 조건식;
+    
+8. Between and
+    연속적인 값 범위 지정
+    WHERE 열 BETEWEEN 시작범위 AND 끝범위;
+    
+9. IN()
+    이산적인 값 범위 지정
+    WHERE 열 IN (A, B, C);
+    
+10. LIKE
+    문자열의 내용 검색
+    WHERE 열 LIKE '김%'
+    여기서 성이 '김' , '%'는 무엇이든 검색
+    즉 성이 김씨인 사람 검색
+    
+    한 글자와 매치하기 위해서는 '_' 를 사용
+    '_종신' 과 같이 사용
 
+11. 쿼리문을 이용해 조건 만들기
+    select name, height from usertbl where height > (select height from usertbl where name = '김경호');
+    김경호보다 키가 큰 사람들 찾기
 
+12. ANY 와 ALL
+    SELECT NAME, HEIGHT FROM USERTBL
+        WHERE HEIGHT >= ANY (SELECT HEIGHT FROM USERTBL WHERE ADDR = '경남')
+        경남 거주 중인 사람들보다 키가 큰 사람
+        170 이상이거나 173 이상
 
+    SELECT NAME, HEIGHT FROM USERTBL
+        WHERE HEIGHT >= ALL (SELECT HEIGHT FROM USERTBL WHERE ADDR = '경남')        
+        경남 거주 중인 사람보다 키가 큰 사람
+        170 이상이고 173 이상인 사람들
+
+13. ORDER BY    #MySQL 성능을 떨어뜨릴 소지가 있음. 쿼리문 가장 뒤에 위치해야 함 
+    출력되는 순서를 조절하는 구문
+    기본, ASC: 오름차순
+    DESC: 내림차순
+    2개 사용 가능 쉼표로 구분
+    
+14. DISTINCT
+    중복제거
+    SELECT DISTINCT 열이름 FROM 테이블이름;
+    
+15. LIMIT
+    출력개수 제한
+    LIMIT N; 은 상위 N개만 출력
+    LIMIT 시작, 끝; 으로 조절 가능
+    
+16. CREATE TABLE ... SELECT
+    테이블을 복사
+    CREATE TABLE 새로운테이블 (SELECT 복사할 열 FROM 기존 테이블)
+    
+17.
+18.
+19.
+20.
 
