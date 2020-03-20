@@ -88,8 +88,21 @@
     테이블을 복사
     CREATE TABLE 새로운테이블 (SELECT 복사할 열 FROM 기존 테이블)
     
-17.
-18.
-19.
-20.
+17. GROUP BY 절
+    그룹을 묶어주는 역할
+    
+18. HAVING 절
+    집계 함수에 대한 조건을 제한하는 것
+    HAVING 절은 꼭 GROUP BY 절 다음에 나와야 함
+    
+19. ROLLUP
+    총합 또는 중간합계가 필요할 때 사용
+    GROUP BY 절과 WITH ROLLUP 을 사용
+    분류별로 합계 및 총합 구할 때:
+        SELECT NUM, GROUPNAME, SUM(PRICE*AMOUNT) AS '비용'
+            FROM BUYTBL
+            GROUP BY GROUPNAME, NUM
+            WITH ROLLUP;
+            
+20. 
 
