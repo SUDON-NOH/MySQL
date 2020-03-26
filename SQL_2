@@ -1,0 +1,106 @@
+1) IF... ELSE
+
+DROP PROCEDURE IF EXISTS ifProc;
+
+Delimiter $$
+create PROCEDURE ifProc()
+begin
+	declare var1 int; -- VAR1 변수 선언
+	set var1 = 100;   -- 변수에 값 대입
+    
+    if var1 = 100 then
+		select '100입니다.';
+	else
+		select '100이 아닙니다.';
+	end if;
+end $$
+delimiter ;
+call ifproc();
+
+
+2) 직원번호 10001번 직원의 입사일이 5년이 넘었는지 확인
+
+DROP PROCEDURE IF EXISTS ifProc2;
+use employees;
+
+delimiter $$
+create procedure ifProc2()
+begin
+	declare hiredate date; -- 입사일
+    declare curdate date; -- 오늘
+    declare days int; -- 근무한 일 수
+    
+    select hire_date into hiredate -- hire_date 열의 결과를 hireDATE에 대입
+		from employees.employees
+        where emp_no = 10001;
+        
+	set curdate = current_date(); -- 현재 날짜
+    set days = datediff(curdate, hiredate); -- 날짜의 차이, 일 단위
+    
+    if (days/365) >= 5 then -- 5년이 지났다면
+		select concat('입사한지', days, '일이나 지났습니다. 축하합니다.');
+	
+    else
+		select '입사한지' + days + '일밖에 안되었네요. 열심히 일하세요.';
+	end if;
+end $$
+delimiter ;
+call ifProc2();
+
+
+3) 다중분기
+  (1) IF문
+    DROP PROCEDURE IF EXISTS ifProc3;
+
+    delimiter $$
+    create procedure ifproc3()
+    begin
+      declare point int;
+        declare credit char(1);
+        set point = 77;
+
+        if point >= 90 then
+        set credit = 'A';
+      elseif point >= 80 then
+        set credit = 'B';
+      elseif point >= 70 then
+        set credit = 'C';
+      elseif point >= 60 then
+        set credit = 'D';
+      else
+        set credit = 'F';
+      end if;
+        select concat('취득점수==>',point), concat('학점==>', credit);
+    end $$
+    delimiter ;
+    call ifproc3()
+    
+  (2) CASE
+  DROP PROCEDURE IF EXISTS caseProc;
+
+  delimiter $$
+  create procedure caseproc()
+  begin
+    declare point int;
+    declare credit char(1);
+    set point = 77;
+
+    case
+      when point >= 90 then
+        set credit = 'A';
+      when point >= 80 then
+        set credit = 'B';
+      when point >= 70 then
+        set credit = 'C';
+      when point >= 60 then
+        set credit = 'D';
+      else
+        set credit = 'F';
+    end case;
+    select concat('취득점수==>',point), concat('학점==>', credit);
+  end $$
+  delimiter ;
+  call caseproc()
+
+
+
