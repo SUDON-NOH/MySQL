@@ -102,5 +102,72 @@ call ifProc2();
   delimiter ;
   call caseproc()
 
+<실습>
+use sqldb;
+select u.userid, u.name, sum(price*amount) as '총구매액',
+		CASE
+			WHEN (sum(price*amount) >= 1500) THEN '최우수고객'
+			WHEN (sum(price*amount) >= 1000) THEN '우수고객'
+			WHEN (sum(price*amount) >= 1) THEN '일반고객'
+			ELSE '유령고객'
+		END AS '고객등급'
+	from buytbl b
+		right join usertbl u
+			on b.userid = u.userid
+	group by u.userid, u.name
+    order by sum(price*amount) desc;
+    
 
+
+4) WHILE 과 ITERATE/LEAVE
+
+(1) 1에서 100까지의 합
+DROP PROCEDURE IF EXISTS WHILEPROC;
+DELIMITER $$
+CREATE PROCEDURE WHILEPROC()
+BEGIN
+	DECLARE I INT;		-- 1에서 100까지 증가할 변수
+    DECLARE HAP INT; 	-- 더한 값을 누적할 변수
+    SET I = 1;
+    SET HAP = 0;
+    
+    WHILE ( I <= 100 ) DO
+			SET HAP = HAP + I;
+            SET I = I + 1;
+	END WHILE;
+    
+    SELECT HAP;
+END $$
+DELIMITER ;
+
+(2) 1에서 100까지의 합 중에서 7의 배수는 제외, 1000이상일 경우 제외
+
+DROP PROCEDURE IF EXISTS WHILEPROC;
+DELIMITER $$
+CREATE PROCEDURE WHILEPROC()
+BEGIN
+	DECLARE I INT;		-- 1에서 100까지 증가할 변수
+    DECLARE HAP INT; 	-- 더한 값을 누적할 변수
+    SET I = 1;
+    SET HAP = 0;
+    
+    myWhile: WHILE ( I <= 100 ) DO -- while 문에 라벨을 지정
+				if (i%7 = 0) then
+					set i = i + 1;
+                    iterate mywhile;
+				end if;
+                
+                SET HAP = HAP + I;
+				if (hap > 1000) then
+					leave mywhile; -- 지정한 label 문을 떠남. 즉, while 종료
+				end if;
+                set i = i + 1;
+	END WHILE;
+    SELECT HAP;
+END $$
+DELIMITER ;
+CALL WHILEPROC();
+
+
+CALL WHILEPROC();
 
