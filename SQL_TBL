@@ -2,8 +2,8 @@ use tabledb;
 
 drop table if exists buytbl, usertbl;
 create table usertbl
-(  userid char(8) not null primary key,
-   name nvarchar(10) not null,
+(   userid char(8) not null primary key,
+    name nvarchar(10) not null,
     birthdyear int not null,
     addr nchar(2)not null,
     mobile1 char(3) null,
@@ -13,8 +13,8 @@ create table usertbl
     );
     
 create table buytbl
-(  num int auto_increment not null primary key,
-   userid nchar(8) not null,
+(   num int auto_increment not null primary key,
+    userid nchar(8) not null,
     prodname nchar(6) not null,
     groupname nchar(4) null,
     price int not null,
