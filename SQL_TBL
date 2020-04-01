@@ -32,3 +32,26 @@ INSERT INTO BUYTBL VALUES(NULL, 'KBS', '노트북', '전자', 1000, 1);
 INSERT INTO BUYTBL VALUES(NULL, 'JYP', '모니터', '전자', 200, 1);
 
 
+
+데이터 압축
+create database if not exists compressdb;
+
+use compressdb;
+
+create table normaltbl( emp_no int, first_name varchar(14));
+create table compresstbl( emp_no int, first_name varchar(14))
+	row_format = compressed;
+
+
+insert into normaltbl
+	select emp_no, first_name from employees.employees;
+    
+insert into compresstbl
+	select emp_no, first_name from employees.employees;
+    
+    
+
+show table status from compressdb;
+
+drop database if exists compressdb;
+
