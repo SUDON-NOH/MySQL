@@ -121,3 +121,11 @@ show columns from mixedtbl;
 
 select addr from mixedtbl where name = '임재범';
 
+------------------------------------------------------------------------------------------------------------------
+
+-- 외래 키 제약 조건 조회
+
+select table_name, constraint_name
+	from information_schema.referential_constraints
+	where constraint_schema = 'sqldb';
+	
