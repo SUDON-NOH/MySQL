@@ -1,0 +1,38 @@
+drop procedure if exists cursorporc;
+delimiter $$
+create procedure cursorproc()
+begin
+	declare userheight int;
+    declare cnt int default 0;
+    declare totalheight int default 0;
+    
+    declare endofrow boolean default false;
+    
+    declare usercuror cursor for
+		select height from usertbl;
+	
+    declare continue handler
+		for not found set endofrow = true;
+        
+	open usercuror;
+    
+    cursor_loop: loop
+		fetch usercuror into userheight;
+        
+        if endofrow then
+			leave cursor_loop;
+		end if;
+        
+        set cnt = cnt + 1;
+        set totalheight = totalheight + userheight;
+	end loop cursor_loop;
+    
+    select concat('고객 키의 평균 ==>', (totalheight/cnt));
+    
+    close usercuror;
+    end $$
+    delimiter ;
+    
+call cursorproc();
+
+
