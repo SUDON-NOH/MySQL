@@ -36,3 +36,56 @@ begin
 call cursorproc();
 
 
+use sqldb;
+alter table usertbl add grade varchar(5);
+alter table usertbl add Userhap bigint;
+alter table usertbl
+	drop column hap;
+    
+drop procedure if exists gradeproc;
+delimiter $$
+create procedure gradeproc()
+begin
+	declare id varchar(10);
+    declare hap bigint;
+    declare usergrade char(5);
+    
+    declare endofrow boolean default false;
+    
+    
+    declare usercuror cursor for
+		select u.userid, sum(price*amount)
+        from buytbl b
+			right outer join usertbl u
+            on b.userid = u.userid
+		group by u.userid, u.name ;
+        
+	declare continue handler
+		for not found set endofrow = true;
+	
+    open usercuror; 
+    grade_loop: loop
+		fetch usercuror into id, hap;
+        if endofrow then
+			leave grade_loop;
+		end if;
+        
+        case
+			when (hap >= 1500) then set usergrade = '최우수고객';
+			when (hap >= 1000) then set usergrade = '우수고객';
+            when (hap >= 1) then set usergrade = '일반고객';
+            else set usergrade = '유령고객';
+            
+		end case;
+        
+        update usertbl set Userhap = hap where userid = id;
+        update usertbl set grade = usergrade where userid = id;
+	end loop grade_loop;
+    
+    close usercuror;
+    
+end $$
+delimiter ;
+
+call gradeproc();
+select * from usertbl;
